@@ -16,10 +16,9 @@ class Covid19Controller extends Controller
      */
     public function index()
     {
-        //$sql = "select * from covid19s";    
-        //$covid19s = DB::select($sql, []);
- 
-        //$covid19s = DB::table("covid19s")->get();
+        $sql = "select * from covid19s";
+	  
+  	$covid19s = DB::select($sql, []);
 
         $covid19s = Covid19::get();
 
