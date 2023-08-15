@@ -77,15 +77,14 @@ Route::get("/gallery/cat", function () {
     return view("test/cat", compact("cat"));
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () { 
-
-    Route::get("/teacher", function () {
-        return view("teacher");
-    });
+Route::get("/teacher", function () {
+    return view("teacher");
 });
-    Route::get("/student", function () {
-        return view("student");
-    });
+
+Route::get("/student", function () {
+    return view("student");
+});
+
 Route::get("/theme", function () {
     return view("theme");
 });
@@ -131,10 +130,6 @@ Route::delete("/product/{id}", [ProductController::class, "destroy"])->name('pro
 
 // Route::resource('/product', ProductController::class );
 
-Route::resource('/staff', StaffController::class);
+Route::resource('/staff', StaffController::class );
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
-require __DIR__ . '/auth.php';
