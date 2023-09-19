@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Covid19Controller;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LeaveRequestController;
+use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaffController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\QuotationDetailController;
 use App\Http\Controllers\UserController;  //เขียนเพิ่ม
 use App\Http\Controllers\VehicleController;  //เขียนเพิ่ม
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -176,3 +179,19 @@ Route::get('/test/pdf', function(){
 
 Route::get('quotation/{id}/pdf', [QuotationController::class, 'pdf']);
 
+
+//Route::resource('leave-request', 'LeaveRequestController');
+//Route::resource('leave-type', 'LeaveTypeController');
+
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['role:admin,guest'])->group(function () {
+        Route::resource('leave-request', LeaveRequestController::class)->except(['edit','update']);
+    });
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('leave-request', LeaveRequestController::class)->only(['edit','update']);
+        Route::resource('leave-type', LeaveTypeController::class);
+        Route::get("dashboard-leave", function () {
+            return view("dashboard-leave");
+        });
+    });
+});
